@@ -1,7 +1,7 @@
 # Ada Jump Start - Lesson 10 Candy Machine
 
 # Welcome the user
-puts "Welcome to Dianna's Computer Candy Machine!"
+puts "Welcome to Dianna Tingg's Computer Candy Machine!"
 puts "All candy provided is virtual."
 
 # Ask the user how much money they have
@@ -14,20 +14,22 @@ until user_money > 0
   user_money = gets.chomp.to_f
 end
 
-# Store a selection of candy and prices
-# key is selection letter, value is price[0], item[1]
-candy_hash = { A: [1.50, "Twix"], B: [2.00, "Snickers"], C: [3.50, "Red Vines"],
-  D: [4.00, "Apple Rings"], E: [5.25, "Salt Water Taffy"] }
+# Create a selection of candy and prices
+candy_hash = { A: [1.50, "Twix"],
+               B: [2.00, "Snickers"],
+               C: [3.50, "Red Vines"],
+               D: [4.00, "Apple Rings"],
+               E: [5.25, "Salt Water Taffy"] }
 
 # Display all candy options and their costs
-puts "\nThis is what we offer: "
+puts "\nHere are our selections: "
 
-candy_hash.each do |letter, item|
-  puts "#{letter}  $#{'%.2f' % item[0]} #{item[1]}"
+candy_hash.each do |letter, candy|
+  puts "#{letter} $#{'%.2f' % candy[0]} #{candy[1]}"
 end
 
 # Ask the user what they want
-# Account for lowercase or uppercase letters
+# Accept lowercase or uppercase letters
 print "\nWhich option do you want? "
 user_choice = gets.chomp.capitalize.to_sym
 
