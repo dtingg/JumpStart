@@ -51,3 +51,6 @@ build-iPhoneSimulator/
 
 # RubyMine files
 .idea/
+
+# Mac files
+.DS_Store
