@@ -30,4 +30,4 @@ else
   print "a "
 end
 
-print "#{occupation} for #{company}."
+puts "#{occupation} for #{company}."
