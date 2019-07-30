@@ -3,7 +3,7 @@
 
 # Welcome users to the program
 puts "Welcome to Nim!"
-puts "\nThere will be several piles of stones.  On your turn, you must choose a pile."
+puts "\nThere will be several piles of stones. On your turn, you must choose a pile."
 puts "Select how many stones you want to remove (any number from one to all)."
 puts "The goal is to avoid taking the last stone in the last pile."
 
@@ -17,7 +17,13 @@ players = []
 
   # Make sure name isn't an empty string and name isn't the same as another player
   until name != "" && !players.include?(name)
-    print "Error. Please enter a valid name: "
+    if name == ""
+      puts "Name cannot be blank."
+    else
+      puts "Name cannot be the same as another player."
+    end  
+
+    print "Please enter a valid name: "
     name = gets.chomp.capitalize
   end
 
@@ -29,8 +35,9 @@ print "\nEnter difficulty level. Easy (2 piles), medium (3 piles), hard (7 piles
 
 difficulty = gets.chomp.downcase
 
+# Validate input for difficulty level
 until difficulty == "easy" || difficulty == "medium" || difficulty == "hard"
-  print "Error. Please enter easy, medium, or hard: "
+  print "Please choose easy, medium, or hard: "
   difficulty = gets.chomp.downcase
 end
 
@@ -41,7 +48,7 @@ counter = rand(2)
 letters = "ABCDEFG"
 piles = {}
 
-# Randomly fill piles with 1 - 7 stones
+# Figure out how many piles to make
 number_of_piles = 0
 
 if difficulty == "easy"
@@ -52,12 +59,14 @@ else
   number_of_piles = 7
 end
 
+# Randomly fill piles with 1 - 9 stones
 number_of_piles.times do |i|
   letter = letters[i]
-  piles[letter.to_sym] = rand(1..7)
+  piles[letter.to_sym] = rand(1..9)
 end
 
 # Function to check if game is over
+# Returns false if any piles still have a stone
 def game_over(piles)
   piles.each do |letter, amount|
     if amount != 0
@@ -71,11 +80,11 @@ end
 while true
   puts "\nPILES"
   
-  # Print the current piles and amount of stones in each
-  piles.each do |letter, amount|
-    print "#{letter}: #{amount}   "
+  # Print the pile letters and number of stones in each
+  piles.each do |letter, number|
+    print "#{letter}: #{number}   "
   end
-  
+
   puts "\n\n"
 
   # If counter is even, player 1 goes.  If counter is odd, player 2 goes.
@@ -90,7 +99,13 @@ while true
 
   # Make sure pile letter is valid and pile is not empty
   until piles.keys.include?(selected_pile) && piles[selected_pile] != 0
-    print "Error. Please choose a valid pile: "
+    if !piles.keys.include?(selected_pile)
+      puts "There is no pile #{selected_pile}."
+    elsif piles[selected_pile] == 0
+      puts "There are no stones in pile #{selected_pile}!"
+    end
+
+    print "Please choose a valid pile: "
     selected_pile = gets.chomp.upcase.to_sym
   end
 
@@ -100,7 +115,21 @@ while true
 
   # Make sure stones isn't negative and there are enough stones in the pile
   while stones < 1 || stones > piles[selected_pile]
-    print "Error. How many stones would you like to remove? 1 - #{piles[selected_pile]}: "
+    if stones < 1
+      puts "You must remove at least 1 stone."
+    else
+      puts "There are not enough stones in that pile."
+    end
+    
+    print "How many stones would you like to remove? "
+    current_stones = piles[selected_pile]
+
+    if current_stones == 1
+      print "(1) "
+    else
+      print "(1 - #{current_stones}) "
+    end    
+    
     stones = gets.chomp.to_i
   end
 
@@ -120,9 +149,9 @@ end
 
 # Print the winner
 if counter % 2 == 0
-  print "#{players[0]} "
+  print "\n#{players[0]} "
 else
-  print "#{players[1]} "
+  print "\n#{players[1]} "
 end
 
 puts "is the winner of this game!"
